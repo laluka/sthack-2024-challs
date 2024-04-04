@@ -7,7 +7,7 @@ services:
     ports:
       - "80:5000"
     volumes:
-      - ./flag:/flag/flag_random_path_50e16a18c0d6d9f372ef62a81f4c1b85
+      - ./flag:/flag/flag_random_path_plifplafplouf:ro
     entrypoint: ["bash", "-c", "updatedb && mlflow ui -h 0.0.0.0:5000"]
     healthcheck:
       test: ["CMD", "/bin/bash", "-c", "curl mlflow:5000"]
