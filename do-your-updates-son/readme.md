@@ -4,6 +4,9 @@
 
 - Medium / Web / Linux
 - Sources are given
+    - Remove the `Detail` from the readme
+    - Censor the `flag_random_path` in `docker-compose.yml`
+---
 
 ```bash
 # Setup or Change Flag
