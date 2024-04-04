@@ -1,0 +1,25 @@
+services:
+  mlflow:
+    container_name: mlflow
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:5000"
+    volumes:
+      - ./flag:/flag/flag_random_path_50e16a18c0d6d9f372ef62a81f4c1b85
+    entrypoint: ["bash", "-c", "updatedb && mlflow ui -h 0.0.0.0:5000"]
+    healthcheck:
+      test: ["CMD", "/bin/bash", "-c", "curl mlflow:5000"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  autoheal:
+    image: willfarrell/autoheal
+    restart: unless-stopped
+    read_only: true
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
