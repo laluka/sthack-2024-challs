@@ -1,6 +1,6 @@
-# Do Your Updates Son
+# Do Your Updates Son - Medium / Web / Linux
 
-> I just set it up, it's up to date, but you don't know when I wrote this message, yesterday? Years ago? Hihi! :)
+> I just set it up, it's up to date, but you don't know when I wrote this message. Yesterday? Years ago? Who knows!
 
 ```bash
 # Live Auto Fix
