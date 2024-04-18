@@ -11,12 +11,17 @@ from streamlit_extras.jupyterlite import jupyterlite
 from streamlit_extras.mandatory_date_range import date_range_picker
 from streamlit_extras.colored_header import colored_header
 
+colored_header(
+        label="My New Pretty Colored Header",
+        description="This is a description",
+        color_name="violet-70",
+    )
+
 st.write("Here's our first attempt at using data to create a table:")
 st.write(pd.DataFrame({
     'first column': [1, 2, 3, 4],
     'second column': [10, 20, 30, 40]
 }))
-
 
 st.write(
         """
@@ -25,15 +30,8 @@ st.write(
         user selects both dates, the app will not run.
         """
     )
+
 result = date_range_picker("Select a date range")
 st.write("Result:", result)
 
-jupyterlite(1080/2, 1920/2)
-
 st.slider('Pick a number', 0, 100, disabled=True)
-
-colored_header(
-        label="My New Pretty Colored Header",
-        description="This is a description",
-        color_name="violet-70",
-    )

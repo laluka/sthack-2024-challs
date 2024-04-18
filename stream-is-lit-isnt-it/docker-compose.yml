@@ -1,0 +1,28 @@
+services:
+  streamlit:
+    container_name: streamlit
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:5000"
+    volumes:
+      - ./flag:/flag/flag_random_path_plifplafplouf:ro
+      - ./sl-app.py:/app/sl-app.py:ro
+    working_dir: /app
+    entrypoint: ["bash", "-c", "streamlit run --server.port 5000 sl-app.py"]
+    # entrypoint: ["bash", "-c", "sleep 3600"]
+    healthcheck:
+      test: ["CMD", "/bin/bash", "-c", "curl streamlit:5000"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # autoheal:
+    # image: willfarrell/autoheal
+    # restart: unless-stopped
+    # read_only: true
+    # environment:
+      # - AUTOHEAL_CONTAINER_LABEL=all
+    # volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
