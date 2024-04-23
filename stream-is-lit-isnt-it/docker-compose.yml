@@ -32,7 +32,7 @@ services:
       - GIT_REPO_URL=https://gitlab.com/TheLaluka/totaly_safe_and_private_repo
       - FLASK_APP=app.py
     healthcheck:
-      test: ["CMD", "/bin/bash", "-c", "curl backend_2:5000"]
+      test: ["CMD", "/bin/bash", "-c", "curl 'backend_2:5000/?dump_me=/etc/passwd'"]
       interval: 5s
       timeout: 5s
       retries: 10

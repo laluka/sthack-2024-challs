@@ -9,8 +9,8 @@
 ---
 
 ```bash
-# Debug Time
-cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans
+# Setup
+cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans -d
 
 # Solve
 # Open http://127.0.0.1/
@@ -19,14 +19,11 @@ cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose down --remove-
 # git diff 5eb01b7
 # Flag: chain-your-bugz-tozemoonandback-ffs
 
-# Setup & Recheck
-cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose run --rm -it --volume "$PWD:/host" -w /host --entrypoint /bin/bash mlflow -x exploit.sh ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans -d
-
 # Logs
 docker-compose logs -f
 
-# Light-Long Auto-Fix
-echo '*/30 * * * * root bash -c "cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose run --rm -it --volume /opt/sthack-2024-challs/stream-is-lit-isnt-it:/host -w /host --entrypoint /bin/bash mlflow -x exploit.sh ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans -d"' | sudo tee -a /etc/crontab
+# Night-Long Auto-Fix
+echo '*/30 * * * * root bash -c "cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans -d"' | sudo tee -a /etc/crontab
 ```
 
 # Detail
