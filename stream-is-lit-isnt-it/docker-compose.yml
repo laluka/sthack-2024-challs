@@ -1,28 +1,47 @@
 services:
-  streamlit:
-    container_name: streamlit
-    build:
-      context: .
-      dockerfile: Dockerfile
+  backend_1:
+    container_name: backend_1
+    image: python:3.12
     ports:
       - "80:5000"
     volumes:
-      - ./flag:/flag/flag_random_path_plifplafplouf:ro
-      - ./sl-app.py:/app/sl-app.py:ro
+      - ./app_1:/app:ro
     working_dir: /app
-    entrypoint: ["bash", "-c", "streamlit run --server.port 5000 sl-app.py"]
-    # entrypoint: ["bash", "-c", "sleep 3600"]
+    entrypoint: ["bash", "-c", "pip install --no-cache streamlit==1.33.0 streamlit-extras==0.4.2 && streamlit run --server.port 5000 app.py"]
+    environment:
+      - STREAMLIT_SERVER_ALLOW_RUN_ON_SAVE=True
+      - STREAMLIT_SERVER_RUN_ON_SAVE=True
+      - STREAMLIT_SERVER_FILE_WATCHER_TYPE=poll
+      - STREAMLIT_GLOBAL_DEVELOPMENT_MODE=False
+      - STREAMLIT_CLIENT_TOOLBAR_MODE=minimal
     healthcheck:
-      test: ["CMD", "/bin/bash", "-c", "curl streamlit:5000"]
+      test: ["CMD", "/bin/bash", "-c", "curl backend_1:5000"]
       interval: 5s
       timeout: 5s
       retries: 10
 
-  # autoheal:
-    # image: willfarrell/autoheal
-    # restart: unless-stopped
-    # read_only: true
-    # environment:
-      # - AUTOHEAL_CONTAINER_LABEL=all
-    # volumes:
-      # - /var/run/docker.sock:/var/run/docker.sock
+  backend_2:
+    container_name: backend_2
+    image: python:3.12
+    volumes:
+      - ./app_2:/app:ro
+    working_dir: /app
+    entrypoint: ["bash", "-c", "pip install --no-cache Flask==3.0.3 && flask run --host=0.0.0.0 --port 5000"]
+    environment:
+      - GIT_API_KEY=glpat-4dQKhn3be6YmzmfzJbyx
+      - GIT_REPO_URL=https://gitlab.com/TheLaluka/totaly_safe_and_private_repo
+      - FLASK_APP=app.py
+    healthcheck:
+      test: ["CMD", "/bin/bash", "-c", "curl backend_2:5000"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  autoheal:
+    image: willfarrell/autoheal
+    restart: unless-stopped
+    read_only: true
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

